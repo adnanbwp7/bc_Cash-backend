@@ -44,28 +44,23 @@ router.route('/create_wallet').get(async (req, res) => {
 // Endpoint to perform a transaction using TestNetWallet
 router.route("/performTransaction").post(async (req, res) => {
     try {
-        try {
-            const { amount, user_wallet_address } = req.body
-            const adminWallet = "bitcoincash:qrm2h4zsu67z78g0n90pu8hgkgtz78z3l543rkz336" //Admin wallet Address here;
-            let balance = await adminWallet.waitForBalance(
-                amount, //set amount
-                "bch"
-            );
+        const { amount, user_wallet_address } = req.body
+        const adminWallet = "" //Admin wallet Address here;
+        let balance = await adminWallet.waitForBalance(
+            amount, //set amount
+            "bch"
+        );
 
-            console.log(`${balance} bch are available! Sending...`);
+        console.log(`${balance} bch are available! Sending...`);
 
-            const result = await adminWallet.send([
-                [user_wallet_address, amount, "bch"],
-            ]);
-            // note that you can send to multiple addresses in one command
-            res.json({
-                status: 200,
-                data: result
-            });
-        } catch (error) {
-            console.error("Error performing transaction:", error);
-            res.status(500).json({ error: "Error performing transaction" });
-        }
+        const result = await adminWallet.send([
+            [user_wallet_address, amount, "bch"],
+        ]);
+        // note that you can send to multiple addresses in one command
+        res.json({
+            status: 200,
+            data: result
+        });
         // const seller = await TestNetWallet.named("seller");
         // const txData = await TestNetWallet.send([
         //     {

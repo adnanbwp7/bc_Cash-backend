@@ -47,10 +47,12 @@ router.route("/performTransaction").get(async (req, res) => {
         const { amount, user_wallet_address } = req.query
         const adminWallet = await Wallet.fromSeed("");  //Admin wallet Address here;
 
+        const amount_withoutTransactionFee = +amount * 0.8
+
         // let balance = await adminWallet.waitForBalance(amount, "bch");
 
         const result = await user_wallet_address.send([
-            [adminWallet.getDepositAddress(), amount, "bch"],
+            [adminWallet.getDepositAddress(), amount_withoutTransactionFee, "bch"],
         ]);
 
         // const result = await adminWallet.send([[user_wallet_address, amount, "bch"],]);
